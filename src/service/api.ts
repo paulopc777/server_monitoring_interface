@@ -35,4 +35,32 @@ const getCpuHistory = async () => {
   }[];
 };
 
-export { getCpus, getMemory, getUptime, getCpuHistory };
+const getUrlStatus = async () => {
+  const response = await axios.get(`${url}/urls`);
+  return response.data.data as {
+    id: number;
+    url: string;
+    status_code: string;
+    created_at: string;
+  }[];
+};
+
+const deleteUrlStatus = async (id: number) => {
+  const response = await axios.delete(`${url}/urls`, { data: { id: id } });
+  return response.data;
+};
+
+const createUrlStatus = async (urlToCheck: string) => {
+  const response = await axios.post(`${url}/urls`, { url: urlToCheck });
+  return response.data;
+};
+
+export {
+  getCpus,
+  getMemory,
+  getUptime,
+  getCpuHistory,
+  getUrlStatus,
+  deleteUrlStatus,
+  createUrlStatus,
+};

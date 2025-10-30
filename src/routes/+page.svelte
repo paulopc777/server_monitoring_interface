@@ -1,4 +1,5 @@
 <script>
+  import BlockStatus from "../components/charts/BlockStatus.svelte";
   import LineChart from "../components/charts/LineChart.svelte";
   import Cpu from "../components/Cpu.svelte";
   import Memory from "../components/Memory.svelte";
@@ -14,6 +15,9 @@
     <div class="w-1/2">
       <Memory />
     </div>
+  </div>
+  <div>
+    <BlockStatus  />
   </div>
   <div class="my-4">
     <LineChart />
