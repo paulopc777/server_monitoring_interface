@@ -1,7 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { getCpus } from "../service/api";
-  import ProgressCircle from "./ui/ProgressCircle.svelte";
+  import Card from "./ui/Card.svelte";
+  import VelocimeterChart from "./charts/VelocimeterChart.svelte";
+  import BlocksChart from "./charts/BlocksChart.svelte";
 
   let cpus = $state<{
     total_cpus: number;
@@ -13,9 +15,14 @@
     cores_usage: [],
   });
 
+  let usedCpu = $state(0);
+
   const getCpuData = async () => {
     try {
       const data = await getCpus();
+
+      console.log(Math.round(data.total_cpu_usage / 10));
+      usedCpu = Math.round(data.total_cpu_usage / 10);
       cpus = data;
     } catch (error) {
       console.error("Error fetching CPU data:", error);
@@ -29,33 +36,28 @@
 </script>
 
 <div>
-  <div class="flex flex-row gap-4 items-center justify-center">
-    <div>
-      <h2>CPU Usage</h2>
-      <p>Total CPUs: {cpus.total_cpus}</p>
-    </div>
-    <ProgressCircle
-      value={cpus.total_cpu_usage}
-      size={150}
-      strokeWidth={10}
-      color="#10b981"
-      textColor="#111827"
-    />
-  </div>
-  <div class="mt-4 flex flex-row gap-4 flex-wrap justify-between">
-    {#each cpus.cores_usage as usage, index}
+  <Card className="">
+    <div class="flex justify-between">
       <div>
-        <p>
-          Core {index + 1}:
+        <p class="text-text-secondary">
+          <small> Threads: </small>
         </p>
-        <ProgressCircle
-          value={usage}
-          size={50}
-          strokeWidth={3}
-          color="#10b981"
-          textColor="#111827"
-        />
+        <p>Total CPUs: {cpus.total_cpus}</p>
+        <div class="my-2">
+          <BlocksChart
+            items={Object.entries(cpus.cores_usage).map(([index, value]) => ({
+              label: `Core ${+index + 1}`,
+              value,
+            }))}
+          />
+        </div>
       </div>
-    {/each}
-  </div>
+      <VelocimeterChart
+        rotate={-3.5}
+        label={`${cpus.total_cpu_usage}%`}
+        total={10}
+        used={usedCpu}
+      />
+    </div>
+  </Card>
 </div>

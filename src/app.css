@@ -1,2 +1,30 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin '@tailwindcss/typography';
+
+:root {
+  --color-primary: #d7eb96;
+  --color-text-primary: #f0f0f0;
+  --color-text-secondary: #636266;
+  --color-primary-red: #ff7554;
+  --color-primary-blue: #a1d1de;
+  --color-primary-foreground: #060606;
+  --color-card: #1e1e21;
+  --color-card-hover: #3b3a3d;
+  --color-primary-border: #3b3a3d;
+}
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-foreground);
+  --color-card: var(--color-card);
+  --color-primary-blue: var(--color-primary-blue);
+  --color-primary-red: var(--color-primary-red);
+  --color-text-primary: var(--color-text-primary);
+  --color-primary-border: var(--color-primary-border);
+  --color-text-secondary: var(--color-text-secondary);
+}
+
+body {
+  color: var(--color-text-primary);
+  background-color: var(--color-primary-foreground);
+}

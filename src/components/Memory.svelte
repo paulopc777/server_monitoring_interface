@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { getMemory } from "../service/api";
+  import Card from "./ui/Card.svelte";
 
   let memory_data = $state<{
     total_memory: number;
@@ -33,42 +34,47 @@
   };
 </script>
 
-<div class="my-4">
-  <div class="flex gap-4 justify-center">
-    <p class="text-purple-500">Total: {memory_data.total_memory} MB</p>
-    <p class="text-blue-500">Usada: {memory_data.used_memory} MB</p>
-    <p class="text-green-500">Livre: {memory_data.free_memory} MB</p>
+<Card className="h-full flex flex-col justify-between ">
+  <div class="flex gap-4 justify-start mx-2">
+    <div class="text-primary-blue">
+      <p>
+        <small> Total: </small>
+      </p>
+      <p>{memory_data.total_memory} MB</p>
+    </div>
+    <div class="text-primary-red">
+      <p>
+        <small> Usada: </small>
+      </p>
+      <p>{memory_data.used_memory} MB</p>
+    </div>
+    <div class="text-primary">
+      <p>
+        <small>Livre: </small>
+      </p>
+      <p>{memory_data.free_memory} MB</p>
+    </div>
   </div>
   <!-- barra de uso de memória -->
   <div
-    class="flex flex-row rounded-xl p-1 bg-zinc-100"
+    class="flex flex-row rounded-xl p-1 bg-card shadow-zinc-800"
     style:width={CalcWidth(memory_data.total_memory, memory_data.total_memory)}
   >
     <div
       id="Used"
-      class="h-3 bg-blue-500 rounded-3xl shadow transition-all duration-500"
+      class="h-3 bg-primary-red rounded-3xl transition-all duration-500 card-shadow-inner"
       style:width={CalcWidth(memory_data.used_memory, memory_data.total_memory)}
     ></div>
     <div
       id="Free"
-      class="h-3 bg-green-500 rounded-3xl shadow transition-all duration-500"
+      class="h-3 bg-primary rounded-3xl shadow transition-all duration-500 card-shadow-inner"
       style:width={CalcWidth(memory_data.free_memory, memory_data.total_memory)}
     ></div>
   </div>
-  <!-- legenda de uso de memória -->
-  <div class="flex flex-row gap-4 mt-4">
-    <div class="flex flex-row items-center gap-2 mb-2">
-      <span class="w-5 h-5 rounded-3xl bg-blue-500"></span>
-      <span
-        >Usada:
-        {CalcWidth(memory_data.used_memory, memory_data.total_memory)}
-      </span>
-    </div>
-    <div class="flex flex-row items-center gap-2 mb-2">
-      <span class="w-5 h-5 rounded-3xl bg-green-500"></span>
-      <span
-        >Livre: {CalcWidth(memory_data.free_memory, memory_data.total_memory)}
-      </span>
-    </div>
-  </div>
-</div>
+</Card>
+
+<style>
+  .card-shadow-inner {
+    box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.45);
+  }
+</style>

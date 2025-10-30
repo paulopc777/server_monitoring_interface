@@ -74,14 +74,23 @@
             {
               label: "CPU Usage",
               data: makeCpuData(), // Y-axis data
-              borderColor: "rgba(75, 192, 192, 1)",
-              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderColor: "var(--color-primary)",
+              backgroundColor: "var(--color-primary)",
               borderWidth: 0,
               pointRadius: 0,
               fill: true,
               tension: 0.4,
               tooltip: {
                 callbacks: {
+                  labelColor: function (context) {
+                    return {
+                      borderColor: "#f0f0f0",
+                      backgroundColor: "#f0f0f0",
+                    };
+                  },
+                  labelTextColor(tooltipItem) {
+                    return "#f0f0f0";
+                  },
                   label: function (context) {
                     return context.parsed.y + "%";
                   },
@@ -118,16 +127,25 @@
       labels: makeDate(), // X-axis labels
       datasets: [
         {
-          label: "CPU Usage",
+          label: "Gráfico",
           data: makeCpuData(), // Y-axis data
-          borderColor: "rgba(75, 192, 192, 1)",
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "#a1d1de",
+          backgroundColor: "#a1d1de",
           borderWidth: 0,
           pointRadius: 3,
           fill: true,
           tension: 0,
           tooltip: {
             callbacks: {
+              labelColor: function (context) {
+                return {
+                  borderColor: "#ffffff",
+                  backgroundColor: "#ffffff",
+                };
+              },
+              labelTextColor(tooltipItem) {
+                return "#ffffff";
+              },
               label: function (context) {
                 return context.parsed.y + "%";
               },
@@ -140,8 +158,12 @@
   });
 </script>
 
-<div class="w-full h-96 bg-white rounded-lg shadow-lg p-4">
-  <canvas id="cpuChart" bind:this={canvas} style="width: 100%; height: 100%;"
+<div class="w-full h-96 bg-card rounded-lg shadow-lg p-4">
+  <canvas
+    id="cpuChart"
+    bind:this={canvas}
+    class="text-text-primary"
+    style="width: 100%; height: 100%;"
   ></canvas>
 </div>
 

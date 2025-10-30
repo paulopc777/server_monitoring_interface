@@ -6,10 +6,16 @@
 </script>
 
 <div class="px-8 py-4">
-  <h1>Server TVBox</h1>
-  <Cpu />
-
-  <Memory />
   <Uptime />
-  <LineChart />
+  <div class="flex gap-2">
+    <div class="w-1/2">
+      <Cpu />
+    </div>
+    <div class="w-1/2">
+      <Memory />
+    </div>
+  </div>
+  <div class="my-4">
+    <LineChart />
+  </div>
 </div>
