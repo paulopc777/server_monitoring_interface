@@ -50,7 +50,9 @@
 <style>
   .uptime-container {
     text-align: center;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
   }
   .status {
     font-size: 1.2em;
