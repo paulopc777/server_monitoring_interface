@@ -1,38 +1,19 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { getCpus } from "../service/api";
   import Card from "./ui/Card.svelte";
   import VelocimeterChart from "./charts/VelocimeterChart.svelte";
   import BlocksChart from "./charts/BlocksChart.svelte";
 
-  let cpus = $state<{
-    total_cpus: number;
-    total_cpu_usage: number;
-    cores_usage: number[];
-  }>({
-    total_cpus: 0,
-    total_cpu_usage: 0,
-    cores_usage: [],
-  });
-
-  let usedCpu = $state(0);
-
-  const getCpuData = async () => {
-    try {
-      const data = await getCpus();
-
-      console.log(Math.round(data.total_cpu_usage / 10));
-      usedCpu = Math.round(data.total_cpu_usage / 10);
-      cpus = data;
-    } catch (error) {
-      console.error("Error fetching CPU data:", error);
-    }
-  };
-
-  onMount(() => {
-    getCpuData();
-    setInterval(getCpuData, 10000);
-  });
+  const {
+    cpus,
+    usedCpu,
+  }: {
+    cpus: {
+      total_cpus: number;
+      total_cpu_usage: number;
+      cores_usage: number[];
+    };
+    usedCpu: number;
+  } = $props();
 </script>
 
 <div>

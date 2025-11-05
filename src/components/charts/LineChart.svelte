@@ -12,7 +12,21 @@
     Filler,
   } from "chart.js";
   import { onMount } from "svelte";
-  import { getCpuHistory } from "../../service/api";
+
+  let {
+    cpuData,
+  }: {
+    cpuData:
+      | {
+          id: number;
+          total_cpus: number;
+          total_cpu_usage: number;
+          cores_usage: number[];
+          created_at: string;
+        }[]
+      | null;
+  } = $props();
+
   // Registrar os componentes do Chart.js
   Chart.register(
     CategoryScale,
@@ -28,21 +42,6 @@
 
   let canvas: HTMLCanvasElement | null = null;
   let chart: Chart | null = null;
-  let cpuData:
-    | {
-        id: number;
-        total_cpus: number;
-        total_cpu_usage: number;
-        cores_usage: number[];
-        created_at: string;
-      }[]
-    | null = $state(null);
-
-  const fetchCpuHistory = () => {
-    getCpuHistory().then((data) => {
-      cpuData = data;
-    });
-  };
 
   const makeDate = () => {
     return cpuData
@@ -64,7 +63,7 @@
   };
 
   onMount(() => {
-    fetchCpuHistory();
+    console.log("mouten");
     if (canvas) {
       chart = new Chart(canvas, {
         type: "line",
@@ -134,6 +133,9 @@
           borderWidth: 0,
           pointRadius: 3,
           fill: true,
+          animation: {
+            duration: 0,
+          },
           tension: 0,
           tooltip: {
             callbacks: {
